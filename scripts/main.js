@@ -51,7 +51,7 @@ function spawnDelivery(targetCore, item, amount) {
     // ищем юнит перебором — находим наш по имени файла
     let pochtaType = null;
     Vars.content.units().each(u => {
-        if (u.name.contains("pochta-carrier")) pochtaType = u;
+        if (String(u.name).includes("pochta-carrier")) pochtaType = u;
     });
     if (!pochtaType) {
         Vars.ui.showInfo("[red]Ошибка: юнит не найден!");
