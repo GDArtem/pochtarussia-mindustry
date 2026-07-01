@@ -178,28 +178,27 @@ function showDeliveryDialog() {
 }
 
 Events.on(EventType.ClientLoadEvent, () => {
-    // явно указываем тип Cons чтобы Rhino не путал перегрузки fill()
-    Vars.ui.hudGroup.fill(new Cons(cont => {
-        cont.bottom().left();
-        cont.table(Styles.black3, new Cons(t => {
-            const btn = t.button("[cyan]Запросить поставку", new Runnable(() => {
-                if (buttonCooldown > 0) {
-                    Vars.ui.showInfo("[red]Кулдаун: " + Math.ceil(buttonCooldown / 60) + " сек.");
-                    return;
-                }
-                showDeliveryDialog();
-            })).size(220, 40).pad(8).get();
+    const table = new Table(Styles.black3);
+    table.bottom().left();
 
-            btn.update(new Runnable(() => {
-                if (buttonCooldown > 0) {
-                    buttonCooldown--;
-                    btn.setText("[gray]" + Math.ceil(buttonCooldown / 60) + " сек.");
-                } else {
-                    btn.setText("[cyan]Запросить поставку");
-                }
-            }));
-        })).pad(8);
-    }));
+    const btn = table.button("[cyan]Запросить поставку", () => {
+        if (buttonCooldown > 0) {
+            Vars.ui.showInfo("[red]Кулдаун: " + Math.ceil(buttonCooldown / 60) + " сек.");
+            return;
+        }
+        showDeliveryDialog();
+    }).size(220, 40).pad(8).get();
+
+    btn.update(() => {
+        if (buttonCooldown > 0) {
+            buttonCooldown--;
+            btn.setText("[gray]" + Math.ceil(buttonCooldown / 60) + " сек.");
+        } else {
+            btn.setText("[cyan]Запросить поставку");
+        }
+    });
+
+    Vars.ui.hudGroup.addChild(table);
 });
 
 Events.on(EventType.Trigger.update, () => {
