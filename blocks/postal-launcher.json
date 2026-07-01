@@ -1,0 +1,17 @@
+{
+  "type": "PayloadBlock",
+  "size": 3,
+  "health": 800,
+  "buildCost": 60,
+  "buildVisibility": "shown",
+  "requirements": [
+    {"item": "copper", "amount": 80},
+    {"item": "lead", "amount": 60},
+    {"item": "silicon", "amount": 40}
+  ],
+  "category": "distribution",
+  "hasItems": true,
+  "itemCapacity": 500,
+  "outputsItems": true,
+  "hasPower": false
+}
