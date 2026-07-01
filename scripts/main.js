@@ -153,11 +153,12 @@ function showDeliveryDialog() {
     slider.changed(() => { selectedAmount = Math.floor(slider.getValue()); });
     dialog.cont.add(slider).width(260).row();
 
-    dialog.cont.table(t => {
-        [50, 100, 200, 500].forEach(n => {
-            t.button("" + n, () => { slider.setValue(n); selectedAmount = n; }).width(60).pad(4);
-        });
-    }).row();
+    // быстрые кнопки — создаём таблицу вручную без лямбды
+    const quickTable = dialog.cont.table().get();
+    [50, 100, 200, 500].forEach(n => {
+        quickTable.button("" + n, () => { slider.setValue(n); selectedAmount = n; }).width(60).pad(4);
+    });
+    dialog.cont.row();
 
     dialog.cont.button("[cyan]Отправить посылку!", () => {
         if (!selectedItem) {
