@@ -48,7 +48,16 @@ function spawnDelivery(targetCore, item, amount) {
 
     myCore.items.remove(item, amount);
 
-    const pochtaType = Vars.content.unit("pochta-rossii-pochta-carrier");
+    // ищем юнит перебором — находим наш по имени файла
+    let pochtaType = null;
+    Vars.content.units().each(u => {
+        if (u.name.contains("pochta-carrier")) pochtaType = u;
+    });
+    if (!pochtaType) {
+        Vars.ui.showInfo("[red]Ошибка: юнит не найден!");
+        myCore.items.add(item, amount); // вернуть ресурсы
+        return;
+    }
     const unit = pochtaType.create(Vars.player.team());
     unit.set(myCore.x, myCore.y);
     unit.add();
